@@ -1,0 +1,29 @@
+﻿<div class="container" style="padding-top:2%; padding-bottom:2%">
+    <div class="row" style="background-color:dimgray">
+        <div class="col-md-2">
+            <button style="width:100%;" id="CreateExcelTable" class="btn btn-secondary">Сгенерировать excel</button>
+        </div>
+        <div class="col-md-2">
+            <button style="width:100%;" id="Add" class="btn btn-secondary">Добавить запись</button>
+        </div>
+        <div id="menu" style="display:none; width:65%">
+            <button style="width:30%;" id="Update" class="btn btn-secondary">Изменить запись</button>
+            <button style="width:20%;" id="Delete" class="btn btn-secondary">Удалить запись</button>
+            <button style="width:40%;" id="Subordination" class="btn btn-secondary">Вывести структуру руководства</button> 
+        </div>
+        <div id="sort" style="display:none">
+            <button class="btn btn-secondary" id="sorting">Отсортировать таблицу по критерию</button>
+        </div>
+    </div>
+</div>
+<div>
+    <table id="Table" class="table" width="1200px"></table>
+</div>
+
+<div class="coverHide" id="cover">
+    @{await Html.RenderPartialAsync("Modal"); }
+    @{await Html.RenderPartialAsync("Subordination"); }
+</div>
+
+
+
