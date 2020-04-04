@@ -34,61 +34,44 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var Person = /** @class */ (function () {
-    function Person(id, name, employmentDate, position, order, manager, managerId) {
-        if (id === void 0) { id = 0; }
-        if (name === void 0) { name = null; }
-        if (employmentDate === void 0) { employmentDate = null; }
-        if (position === void 0) { position = null; }
-        if (order === void 0) { order = null; }
-        if (manager === void 0) { manager = null; }
-        if (managerId === void 0) { managerId = -1; }
-        this.id = id;
-        this.name = name;
-        this.employmentDate = employmentDate;
-        this.position = position;
-        this.order = order;
-        this.manager = manager;
-        this.managerId = managerId;
-    }
-    return Person;
-}());
 var Display = /** @class */ (function () {
     function Display() {
     }
     Display.prototype.RenderPersonForModal = function (repository, person) {
-        document.getElementById("idModal").value = String(person.id);
-        document.getElementById("nameModal").value = person.name;
-        document.getElementById("positionModal").value = person.position;
+        this.SetElementValue("idModal", String(person.id));
+        this.SetElementValue("nameModal", person.name);
+        this.SetElementValue("positionModal", person.position);
+        this.SetElementValue("orderModal", person.order);
+        if (person.managerId != 0) {
+            this.SetElementValue("managerNameModal", String(repository.GetManagerById(person.managerId).name));
+        }
+        else {
+            this.SetElementValue("managerNameModal", "");
+        }
         var dateArray = person.employmentDate.split('.');
         var stringDateCorrect = dateArray[2] + '-' + dateArray[1] + '-' + dateArray[0];
-        document.getElementById("employmentDateModal").valueAsDate = new Date(stringDateCorrect);
-        document.getElementById("orderModal").value = person.order;
-        document.getElementById("managerNameModal").value = "";
-        if (person.managerId != 0) {
-            document.getElementById("managerNameModal").value = String(repository.GetManagerById(person.managerId).name);
-        }
+        this.SetElementValue("employmentDateModal", stringDateCorrect);
     };
     Display.prototype.CreatePersonFromModal = function (repository) {
         var person = new Person();
-        person.id = +document.getElementById("idModal").value;
-        person.name = document.getElementById("nameModal").value;
-        person.position = document.getElementById("positionModal").value;
-        var dateRow = document.getElementById("employmentDateModal").value;
+        person.id = +this.GetElementValueById("idModal");
+        person.name = this.GetElementValueById("nameModal");
+        person.position = this.GetElementValueById("positionModal");
+        var dateRow = this.GetElementValueById("employmentDateModal");
         var dateArray = dateRow.split('-');
         var date = dateArray[2] + '.' + dateArray[1] + '.' + dateArray[0];
         person.employmentDate = date;
-        person.order = document.getElementById("orderModal").value;
-        var managerName = document.getElementById("managerNameModal").value;
+        person.order = this.GetElementValueById("orderModal");
+        var managerName = this.GetElementValueById("managerNameModal");
         person.managerId = repository.GetManagerByName(managerName).id;
         return person;
     };
     Display.prototype.CloseAndClearFormsInModal = function () {
-        document.getElementById("nameModal").value = "testname";
-        document.getElementById("positionModal").value = "testpos";
-        document.getElementById("employmentDateModal").value = "1234-01-01";
-        document.getElementById("orderModal").value = "testorder";
-        document.getElementById("managerNameModal").value = "Фулгрим";
+        this.SetElementValue("nameModal", "testname");
+        this.SetElementValue("positionModal", "testposition");
+        this.SetElementValue("employmentDateModal", "1234-01-01");
+        this.SetElementValue("orderModal", "testorder");
+        this.SetElementValue("managerNameModal", "Фулгрим");
         var modal = document.getElementById("modal-view");
         modal.className = "modalFormClose";
     };
@@ -180,8 +163,34 @@ var Display = /** @class */ (function () {
             _loop_1(i);
         }
     };
+    Display.prototype.SetElementValue = function (id, value) {
+        document.getElementById(id).value = value;
+    };
+    Display.prototype.GetElementValueById = function (id) {
+        return document.getElementById(id).value;
+    };
     return Display;
 }());
+function ElementHighlightning(element) {
+    var str = document.getElementsByClassName("selectedElement");
+    var sort = document.getElementById("sort");
+    var menu = document.getElementById("menu");
+    if (element.className == "selectedElement") {
+        element.removeAttribute("class");
+        sort.style.display = "none";
+    }
+    else if (str[0] != null) {
+        str[0].removeAttribute("class");
+        element.className = "selectedElement";
+        sort.style.display = "block";
+        menu.style.display = "none";
+    }
+    else {
+        element.className = "selectedElement";
+        sort.style.display = "block";
+        menu.style.display = "none";
+    }
+}
 window.onload = function () {
     var display = new Display();
     var repository = new Repository();
@@ -303,6 +312,25 @@ window.onload = function () {
         sort.style.display = "none";
     };
 };
+var Person = /** @class */ (function () {
+    function Person(id, name, employmentDate, position, order, manager, managerId) {
+        if (id === void 0) { id = 0; }
+        if (name === void 0) { name = null; }
+        if (employmentDate === void 0) { employmentDate = null; }
+        if (position === void 0) { position = null; }
+        if (order === void 0) { order = null; }
+        if (manager === void 0) { manager = null; }
+        if (managerId === void 0) { managerId = -1; }
+        this.id = id;
+        this.name = name;
+        this.employmentDate = employmentDate;
+        this.position = position;
+        this.order = order;
+        this.manager = manager;
+        this.managerId = managerId;
+    }
+    return Person;
+}());
 var Repository = /** @class */ (function () {
     function Repository() {
         this.persons = [];
@@ -506,24 +534,4 @@ var Repository = /** @class */ (function () {
     };
     return Repository;
 }());
-function ElementHighlightning(element) {
-    var str = document.getElementsByClassName("selectedElement");
-    var sort = document.getElementById("sort");
-    var menu = document.getElementById("menu");
-    if (element.className == "selectedElement") {
-        element.removeAttribute("class");
-        sort.style.display = "none";
-    }
-    else if (str[0] != null) {
-        str[0].removeAttribute("class");
-        element.className = "selectedElement";
-        sort.style.display = "block";
-        menu.style.display = "none";
-    }
-    else {
-        element.className = "selectedElement";
-        sort.style.display = "block";
-        menu.style.display = "none";
-    }
-}
 //# sourceMappingURL=site.js.map

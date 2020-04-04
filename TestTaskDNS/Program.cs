@@ -19,18 +19,9 @@ namespace TestTask
 			using (var scope = host.Services.CreateScope())
 			{
 				var services = scope.ServiceProvider;
-				try
-				{
-					logger.Debug("Начало работы");
-				}
-				catch (Exception ex)
-				{
-					logger.Error(ex, "Stopped program because of exception");
-				}
-				finally
-				{
-					LogManager.Shutdown(); 
-				}
+
+				logger.Debug("Начало работы");
+				LogManager.Shutdown(); 
 			}
 
 			host.Run();

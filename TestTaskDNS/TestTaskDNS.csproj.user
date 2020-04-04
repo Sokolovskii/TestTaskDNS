@@ -11,10 +11,25 @@
     <WebStackScaffolding_ControllerDialogWidth>600</WebStackScaffolding_ControllerDialogWidth>
     <WebStackScaffolding_IsAsyncSelected>False</WebStackScaffolding_IsAsyncSelected>
   </PropertyGroup>
-  <ItemGroup />
   <ItemGroup>
-    <TypeScriptCompile Update="wwwroot\js\site.ts">
+    <TypeScriptCompile Update="wwwroot\js\Main.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
   </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Update="wwwroot\js\Repository.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Update="wwwroot\js\Display.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Update="wwwroot\js\Person.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+  </ItemGroup>
+  <ItemGroup />
 </Project>

@@ -43,28 +43,28 @@ namespace TestTask.Controllers
 			}
 
 		}
-		/// <summary>
-		/// Получение структуры руководства сотрудников
-		/// </summary>
-		/// <param name="id"></param>
-		/// <returns>Список руководителей</returns>
-		[HttpGet("Managers")]
-		public List<Person> GetStructedManagers(int id)
-		{
-			logger.Info("Начало запроса начальников");
-			try
-			{
-				var managers = Repository.GetStructedManagers(id);
-				logger.Info("Начальники готовы");
-				return managers;
-			}
-			catch (Exception ex)
-			{
-				logger.Info($"Список не создан, возникла ошибка: {ex}");
-				return null;
-			}
+		///// <summary>
+		///// Получение структуры руководства сотрудников
+		///// </summary>
+		///// <param name="id"></param>
+		///// <returns>Список руководителей</returns>
+		//[HttpGet("Managers")]
+		//public List<Person> GetStructedManagers(int id)
+		//{
+		//	logger.Info("Начало запроса начальников");
+		//	try
+		//	{
+		//		var managers = Repository.GetStructedManagers(id);
+		//		logger.Info("Начальники готовы");
+		//		return managers;
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		logger.Info($"Список не создан, возникла ошибка: {ex}");
+		//		return null;
+		//	}
 
-		}
+		//}
 
 		[HttpPost("Add")]
 		public int AddPerson([FromBody]Person person)
