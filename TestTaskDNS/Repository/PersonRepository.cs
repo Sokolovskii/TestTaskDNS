@@ -67,47 +67,6 @@ namespace TestTask.Repository
 			return persons;
 		}
 
-		//public List<Person> GetStructedManagers(int id)
-		//{
-		//	string sqlExpressionGetPerson = "GetPerson";
-		//	var managers = new List<Person>();
-		//	using (SqlConnection connection = new SqlConnection(connectionString))
-		//	{
-		//		SqlCommand command = new SqlCommand(sqlExpressionGetPerson, connection);
-		//		command.CommandType = System.Data.CommandType.StoredProcedure;
-
-		//		SqlParameter sqlParameterId = new SqlParameter
-		//		{
-		//			ParameterName = "@Id",
-		//			Value = id
-		//		};
-		//		command.Parameters.Add(sqlParameterId);
-
-		//		int ManagerIdForCheck = 1;
-		//		while(ManagerIdForCheck > 0)
-		//		{
-		//			connection.Open();
-		//			var reader = command.ExecuteReader();
-		//			reader.Read();
-		//			var person = new Person
-		//			{
-		//				Id = reader.GetInt32(0),
-		//				Name = reader.GetString(1),
-		//				EmploymentDate = reader.GetDateTime(2).ToShortDateString(),
-		//				Position = reader.GetString(3),
-		//				Order = reader.GetString(4),
-		//				ManagerId = reader.IsDBNull(5) ? -1 : reader.GetInt32(5)
-		//			};
-		//			ManagerIdForCheck = person.ManagerId;
-		//			managers.Add(person);
-		//			sqlParameterId.Value = person.ManagerId;
-		//			connection.Close();
-		//		}	
-		//	}
-		//	managers.Reverse();
-		//	return managers;
-		//}
-
 		public Person GetPerson(int id)
 		{
 			string sqlExpression = "GetPerson";
