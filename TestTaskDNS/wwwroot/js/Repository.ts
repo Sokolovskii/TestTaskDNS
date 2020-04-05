@@ -2,26 +2,35 @@
 
     persons: Array<Person> = [];
 
-    SortTable() {
+    SortTableUp() {
         let element = document.getElementsByClassName("selectedElement")[0];
         let criterion = "";
         if (element.innerHTML == "Имя") {
             criterion = "name";
         }
-        if (element.innerHTML == "Должность") {
-            criterion = "position";
+        if (element.innerHTML == "Отдел") {
+            criterion = "order";
+        }
+        this.persons.sort(this.ByFieldUp(criterion));
+    }
+
+    SortTableDown() {
+        let element = document.getElementsByClassName("selectedElement")[0];
+        let criterion = "";
+        if (element.innerHTML == "Имя") {
+            criterion = "name";
         }
         if (element.innerHTML == "Отдел") {
             criterion = "order";
         }
-        if (element.innerHTML == "Дата приема сотрудника") {
-            criterion = "employmentDate";
-        }
-        this.persons.sort(this.ByField(criterion));
+        this.persons.sort(this.ByFieldDown(criterion));
     }
 
-    ByField(field) {
+    ByFieldUp(field) {
         return (a, b) => a[field] > b[field] ? 1 : -1;
+    }
+    ByFieldDown(field) {
+        return (a, b) => a[field] < b[field] ? 1 : -1;
     }
 
     PushPersons(personsJson: JSON): JSON {

@@ -79,20 +79,10 @@
         table.append(headerOfTable);
 
         let nameHeader = document.getElementById("nameHeader");
-        let positionHeader = document.getElementById("positionHeader");
-        let employmentDateHeader = document.getElementById("employmentDateHeader");
         let orderHeader = document.getElementById("orderHeader");
 
         nameHeader.onclick = function () {
             ElementHighlightning(nameHeader);
-        };
-
-        positionHeader.onclick = function () {
-            ElementHighlightning(positionHeader);
-        };
-
-        employmentDateHeader.onclick = function () {
-            ElementHighlightning(employmentDateHeader);
         };
 
         orderHeader.onclick = function () {

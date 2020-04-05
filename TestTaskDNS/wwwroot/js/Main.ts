@@ -14,7 +14,8 @@
     let deleteButton = document.getElementById("Delete");
     let subordinationButton = document.getElementById("Subordination");
     let closeButton = document.getElementById("closeModal");
-    let sortButton = document.getElementById("sorting");
+    let sortUpButton = document.getElementById("sortingUp");
+    let sortDownButton = document.getElementById("sortingDown");
     let sort = document.getElementById("sort");
 
     closeButton.onclick = function () {
@@ -121,8 +122,13 @@
             modal.className = "modalSubordinationClose";
         }
     }
-    sortButton.onclick = function () {
-        repository.SortTable();
+    sortUpButton.onclick = function () {
+        repository.SortTableUp();
+        display.Render(repository);
+        sort.style.display = "none";
+    }
+    sortDownButton.onclick = function () {
+        repository.SortTableDown();
         display.Render(repository);
         sort.style.display = "none";
     }

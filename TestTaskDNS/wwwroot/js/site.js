@@ -110,17 +110,9 @@ var Display = /** @class */ (function () {
             + "<th></th>");
         table.append(headerOfTable);
         var nameHeader = document.getElementById("nameHeader");
-        var positionHeader = document.getElementById("positionHeader");
-        var employmentDateHeader = document.getElementById("employmentDateHeader");
         var orderHeader = document.getElementById("orderHeader");
         nameHeader.onclick = function () {
             ElementHighlightning(nameHeader);
-        };
-        positionHeader.onclick = function () {
-            ElementHighlightning(positionHeader);
-        };
-        employmentDateHeader.onclick = function () {
-            ElementHighlightning(employmentDateHeader);
         };
         orderHeader.onclick = function () {
             ElementHighlightning(orderHeader);
@@ -205,7 +197,8 @@ window.onload = function () {
     var deleteButton = document.getElementById("Delete");
     var subordinationButton = document.getElementById("Subordination");
     var closeButton = document.getElementById("closeModal");
-    var sortButton = document.getElementById("sorting");
+    var sortUpButton = document.getElementById("sortingUp");
+    var sortDownButton = document.getElementById("sortingDown");
     var sort = document.getElementById("sort");
     closeButton.onclick = function () {
         display.CloseAndClearFormsInModal();
@@ -306,8 +299,13 @@ window.onload = function () {
             modal.className = "modalSubordinationClose";
         };
     };
-    sortButton.onclick = function () {
-        repository.SortTable();
+    sortUpButton.onclick = function () {
+        repository.SortTableUp();
+        display.Render(repository);
+        sort.style.display = "none";
+    };
+    sortDownButton.onclick = function () {
+        repository.SortTableDown();
         display.Render(repository);
         sort.style.display = "none";
     };
@@ -335,25 +333,33 @@ var Repository = /** @class */ (function () {
     function Repository() {
         this.persons = [];
     }
-    Repository.prototype.SortTable = function () {
+    Repository.prototype.SortTableUp = function () {
         var element = document.getElementsByClassName("selectedElement")[0];
         var criterion = "";
         if (element.innerHTML == "Имя") {
             criterion = "name";
         }
-        if (element.innerHTML == "Должность") {
-            criterion = "position";
+        if (element.innerHTML == "Отдел") {
+            criterion = "order";
+        }
+        this.persons.sort(this.ByFieldUp(criterion));
+    };
+    Repository.prototype.SortTableDown = function () {
+        var element = document.getElementsByClassName("selectedElement")[0];
+        var criterion = "";
+        if (element.innerHTML == "Имя") {
+            criterion = "name";
         }
         if (element.innerHTML == "Отдел") {
             criterion = "order";
         }
-        if (element.innerHTML == "Дата приема сотрудника") {
-            criterion = "employmentDate";
-        }
-        this.persons.sort(this.ByField(criterion));
+        this.persons.sort(this.ByFieldDown(criterion));
     };
-    Repository.prototype.ByField = function (field) {
+    Repository.prototype.ByFieldUp = function (field) {
         return function (a, b) { return a[field] > b[field] ? 1 : -1; };
+    };
+    Repository.prototype.ByFieldDown = function (field) {
+        return function (a, b) { return a[field] < b[field] ? 1 : -1; };
     };
     Repository.prototype.PushPersons = function (personsJson) {
         var length = Object.keys(personsJson).length;
