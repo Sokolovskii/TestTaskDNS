@@ -157,11 +157,13 @@
         repository.persons.sort(repository.ByFieldDown(criterion));
     }
 
+    //Преобразует дату из формата ГГГГ-ММ-ДД в ДД.ММ.ГГГГ для более лучшего восприятия пользователем
     ChangeDataToClient(date:string):string{
         let dateArray = date.split('-');
         return dateArray[2] + '.' + dateArray[1] + '.' + dateArray[0];
     }
 
+    //Преобразует дату из формата ДД.ММ.ГГГГ в ГГГГ-ДД-ММ для использования в инпутах HTML и передаче на сервер
     ChangeDataToModal(date: string): string {
         let dateArray = date.split('.');
         return dateArray[2] + '-' + dateArray[1] + '-' + dateArray[0];
