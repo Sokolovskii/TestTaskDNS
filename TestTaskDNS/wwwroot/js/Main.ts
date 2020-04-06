@@ -123,12 +123,12 @@
         }
     }
     sortUpButton.onclick = function () {
-        repository.SortTableUp();
+        display.SortTableUp(repository);
         display.Render(repository);
         sort.style.display = "none";
     }
     sortDownButton.onclick = function () {
-        repository.SortTableDown();
+        display.SortTableDown(repository);
         display.Render(repository);
         sort.style.display = "none";
     }

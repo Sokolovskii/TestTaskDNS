@@ -10,11 +10,6 @@ namespace TestTask.Repository
 	{
 		string connectionString = "Data Source =.\\SQLEXPRESS;Initial Catalog = TestDataBase; Integrated Security = True";
 
-		public PersonRepository()
-		{
-			//connectionString = Configuration.GetConnectionString("DefaultConnection");
-		}
-
 		public void Delete(int id)
 		{
 			string sqlExpression = "DeletePerson";

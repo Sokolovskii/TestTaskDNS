@@ -48,8 +48,7 @@ var Display = /** @class */ (function () {
         else {
             this.SetElementValue("managerNameModal", "");
         }
-        var dateArray = person.employmentDate.split('.');
-        var stringDateCorrect = dateArray[2] + '-' + dateArray[1] + '-' + dateArray[0];
+        var stringDateCorrect = this.ChangeDataToModal(person.employmentDate);
         this.SetElementValue("employmentDateModal", stringDateCorrect);
     };
     Display.prototype.CreatePersonFromModal = function (repository) {
@@ -58,9 +57,7 @@ var Display = /** @class */ (function () {
         person.name = this.GetElementValueById("nameModal");
         person.position = this.GetElementValueById("positionModal");
         var dateRow = this.GetElementValueById("employmentDateModal");
-        var dateArray = dateRow.split('-');
-        var date = dateArray[2] + '.' + dateArray[1] + '.' + dateArray[0];
-        person.employmentDate = date;
+        person.employmentDate = this.ChangeDataToClient(dateRow);
         person.order = this.GetElementValueById("orderModal");
         var managerName = this.GetElementValueById("managerNameModal");
         person.managerId = repository.GetManagerByName(managerName).id;
@@ -160,6 +157,36 @@ var Display = /** @class */ (function () {
     };
     Display.prototype.GetElementValueById = function (id) {
         return document.getElementById(id).value;
+    };
+    Display.prototype.SortTableUp = function (repository) {
+        var element = document.getElementsByClassName("selectedElement")[0];
+        var criterion = "";
+        if (element.innerHTML == "Имя") {
+            criterion = "name";
+        }
+        if (element.innerHTML == "Отдел") {
+            criterion = "order";
+        }
+        repository.persons.sort(repository.ByFieldUp(criterion));
+    };
+    Display.prototype.SortTableDown = function (repository) {
+        var element = document.getElementsByClassName("selectedElement")[0];
+        var criterion = "";
+        if (element.innerHTML == "Имя") {
+            criterion = "name";
+        }
+        if (element.innerHTML == "Отдел") {
+            criterion = "order";
+        }
+        repository.persons.sort(repository.ByFieldDown(criterion));
+    };
+    Display.prototype.ChangeDataToClient = function (date) {
+        var dateArray = date.split('-');
+        return dateArray[2] + '.' + dateArray[1] + '.' + dateArray[0];
+    };
+    Display.prototype.ChangeDataToModal = function (date) {
+        var dateArray = date.split('.');
+        return dateArray[2] + '-' + dateArray[1] + '-' + dateArray[0];
     };
     return Display;
 }());
@@ -300,12 +327,12 @@ window.onload = function () {
         };
     };
     sortUpButton.onclick = function () {
-        repository.SortTableUp();
+        display.SortTableUp(repository);
         display.Render(repository);
         sort.style.display = "none";
     };
     sortDownButton.onclick = function () {
-        repository.SortTableDown();
+        display.SortTableDown(repository);
         display.Render(repository);
         sort.style.display = "none";
     };
@@ -333,28 +360,6 @@ var Repository = /** @class */ (function () {
     function Repository() {
         this.persons = [];
     }
-    Repository.prototype.SortTableUp = function () {
-        var element = document.getElementsByClassName("selectedElement")[0];
-        var criterion = "";
-        if (element.innerHTML == "Имя") {
-            criterion = "name";
-        }
-        if (element.innerHTML == "Отдел") {
-            criterion = "order";
-        }
-        this.persons.sort(this.ByFieldUp(criterion));
-    };
-    Repository.prototype.SortTableDown = function () {
-        var element = document.getElementsByClassName("selectedElement")[0];
-        var criterion = "";
-        if (element.innerHTML == "Имя") {
-            criterion = "name";
-        }
-        if (element.innerHTML == "Отдел") {
-            criterion = "order";
-        }
-        this.persons.sort(this.ByFieldDown(criterion));
-    };
     Repository.prototype.ByFieldUp = function (field) {
         return function (a, b) { return a[field] > b[field] ? 1 : -1; };
     };

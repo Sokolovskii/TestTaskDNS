@@ -11,8 +11,7 @@
         else {
             this.SetElementValue("managerNameModal", "");
         }
-        let dateArray = person.employmentDate.split('.');
-        let stringDateCorrect = dateArray[2] + '-' + dateArray[1] + '-' + dateArray[0];
+        let stringDateCorrect = this.ChangeDataToModal(person.employmentDate)
         this.SetElementValue("employmentDateModal", stringDateCorrect);
     }
 
@@ -22,9 +21,7 @@
         person.name = this.GetElementValueById("nameModal");
         person.position = this.GetElementValueById("positionModal");
         let dateRow = this.GetElementValueById("employmentDateModal");
-        let dateArray = dateRow.split('-');
-        let date = dateArray[2] + '.' + dateArray[1] + '.' + dateArray[0];
-        person.employmentDate = date;
+        person.employmentDate = this.ChangeDataToClient(dateRow);
         person.order = this.GetElementValueById("orderModal");
         let managerName = this.GetElementValueById("managerNameModal");
         person.managerId = repository.GetManagerByName(managerName).id;
@@ -134,6 +131,40 @@
 
     GetElementValueById(id: string): string {
         return (<HTMLInputElement>document.getElementById(id)).value;
+    }
+
+    SortTableUp(repository: Repository) {
+        let element = document.getElementsByClassName("selectedElement")[0];
+        let criterion = "";
+        if (element.innerHTML == "Имя") {
+            criterion = "name";
+        }
+        if (element.innerHTML == "Отдел") {
+            criterion = "order";
+        }
+        repository.persons.sort(repository.ByFieldUp(criterion));
+    }
+
+    SortTableDown(repository: Repository) {
+        let element = document.getElementsByClassName("selectedElement")[0];
+        let criterion = "";
+        if (element.innerHTML == "Имя") {
+            criterion = "name";
+        }
+        if (element.innerHTML == "Отдел") {
+            criterion = "order";
+        }
+        repository.persons.sort(repository.ByFieldDown(criterion));
+    }
+
+    ChangeDataToClient(date:string):string{
+        let dateArray = date.split('-');
+        return dateArray[2] + '.' + dateArray[1] + '.' + dateArray[0];
+    }
+
+    ChangeDataToModal(date: string): string {
+        let dateArray = date.split('.');
+        return dateArray[2] + '-' + dateArray[1] + '-' + dateArray[0];
     }
 }
 

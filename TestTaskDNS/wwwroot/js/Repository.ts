@@ -2,33 +2,10 @@
 
     persons: Array<Person> = [];
 
-    SortTableUp() {
-        let element = document.getElementsByClassName("selectedElement")[0];
-        let criterion = "";
-        if (element.innerHTML == "Имя") {
-            criterion = "name";
-        }
-        if (element.innerHTML == "Отдел") {
-            criterion = "order";
-        }
-        this.persons.sort(this.ByFieldUp(criterion));
-    }
-
-    SortTableDown() {
-        let element = document.getElementsByClassName("selectedElement")[0];
-        let criterion = "";
-        if (element.innerHTML == "Имя") {
-            criterion = "name";
-        }
-        if (element.innerHTML == "Отдел") {
-            criterion = "order";
-        }
-        this.persons.sort(this.ByFieldDown(criterion));
-    }
-
     ByFieldUp(field) {
         return (a, b) => a[field] > b[field] ? 1 : -1;
     }
+
     ByFieldDown(field) {
         return (a, b) => a[field] < b[field] ? 1 : -1;
     }
