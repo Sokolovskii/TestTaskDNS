@@ -64,11 +64,11 @@ var Display = /** @class */ (function () {
         return person;
     };
     Display.prototype.CloseAndClearFormsInModal = function () {
-        this.SetElementValue("nameModal", "testname");
-        this.SetElementValue("positionModal", "testposition");
-        this.SetElementValue("employmentDateModal", "1234-01-01");
-        this.SetElementValue("orderModal", "testorder");
-        this.SetElementValue("managerNameModal", "Фулгрим");
+        this.SetElementValue("nameModal", "");
+        this.SetElementValue("positionModal", "");
+        this.SetElementValue("employmentDateModal", "");
+        this.SetElementValue("orderModal", "");
+        this.SetElementValue("managerNameModal", "");
         var modal = document.getElementById("modal-view");
         modal.className = "modalFormClose";
     };

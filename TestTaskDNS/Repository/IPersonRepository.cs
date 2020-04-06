@@ -7,7 +7,6 @@ namespace TestTask.Repository
 	public interface IPersonRepository
 	{
 		List<Person> GetAllPersons();
-		Person GetPerson(int id);
 		void Delete(int id);
 		int Add(Person person);
 		void Update(Person person);

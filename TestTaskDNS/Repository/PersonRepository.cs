@@ -62,34 +62,6 @@ namespace TestTask.Repository
 			return persons;
 		}
 
-		public Person GetPerson(int id)
-		{
-			string sqlExpression = "GetPerson";
-			var person = new Person { };
-			using(SqlConnection connection = new SqlConnection(connectionString))
-			{
-				connection.Open();
-				SqlCommand command = new SqlCommand(sqlExpression, connection);
-				command.CommandType = System.Data.CommandType.StoredProcedure;
-
-				MakeAndAddSqlParameter("Id", id, command);
-				var reader = command.ExecuteReader();
-
-				if (reader.HasRows)
-				{
-					reader.Read();
-					person.Id = reader.GetInt32(0);
-					person.Name = reader.GetString(1);
-					person.EmploymentDate = reader.GetDateTime(2).ToShortDateString();
-					person.Position = reader.GetString(3);
-					person.Order = reader.GetString(4);
-					person.ManagerId = reader.IsDBNull(5) ? -1 : reader.GetInt32(5);
-				}
-				connection.Close();
-			}
-			return person;
-		}
-
 		public int Add(Person person)
 		{
 			string sqlExpressionAdd = "AddNewPerson";
