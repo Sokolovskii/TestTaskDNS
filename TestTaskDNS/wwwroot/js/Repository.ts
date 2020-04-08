@@ -1,15 +1,19 @@
 ﻿class Repository {
 
+    //Кэш репозитория, все записи, полученные от базы данных и редактированные в процессе работы приложения
     persons: Array<Person> = [];
 
+    //Метод, позволяющий сортировать таблицу по возрастанию
     ByFieldUp(field) {
         return (a, b) => a[field] > b[field] ? 1 : -1;
     }
 
+    //Метод, позволяющий сортировать таблицу по убыванию
     ByFieldDown(field) {
         return (a, b) => a[field] < b[field] ? 1 : -1;
     }
 
+    //Записывает записи из JSON в кэш
     PushPersons(personsJson: JSON): JSON {
         let length: number = Object.keys(personsJson).length;
         for (let i = 0; i < length; i++) {
@@ -18,7 +22,8 @@
         return personsJson
     }
 
-    ValidationCheckCircles(person: Person): boolean {
+    //Осуществляет проверку на замыкания в структуре подчиненности
+    private ValidationCheckCircles(person: Person): boolean {
         let managerId = person.managerId;
         let ids: Array<number> = [person.id, managerId];
         while (managerId != -1) {
@@ -38,7 +43,8 @@
         return true;
     }
 
-    AllValidationCheck(person: Person): boolean {
+    //Осуществляет общую валидацию записи
+    private AllValidationCheck(person: Person): boolean {
         if (this.ValidationCheckCircles(person)) {
             return true
         }
@@ -48,6 +54,7 @@
         }
     }
 
+    //Возвращает руководителя по его имени
     GetManagerByName(managerName: string): Person {
         let manager: Person;
         for (let i = 0; i < this.persons.length; i++) {
@@ -56,6 +63,7 @@
         return manager;
     }
 
+    //Возвращает руководителя по его Id
     GetManagerById(managerId: number): Person {
         let manager: Person;
         for (let i = 0; i < this.persons.length; i++) {
@@ -64,6 +72,7 @@
         return manager;
     }
 
+    //Возвращает список руководителей для указанного сотрудника
     GetStructedManagers(person: Person): Array<Person> {
         let managers: Array<Person> = [person];
         while (person.managerId != -1) {
@@ -75,7 +84,8 @@
         return managers;
     }
 
-    ValidateAndUpdatePerson(person: Person): Person {
+    //Проводит проверку записи и в случае успешной проверки обновляет запись в кэше
+    private ValidateAndUpdatePerson(person: Person): Person {
         person.manager = this.GetManagerById(person.managerId);
         if (this.AllValidationCheck(person)) {
             for (let i = 0; i < this.persons.length; i++) {
@@ -86,12 +96,14 @@
         return person;
     }
 
+    //Асинхронный метод, совершающий запрос к серверу и получающий список всех сотрудников
     async GetPersons() {
         let response = await fetch('api/person/GetAllPersons');
         let result = await response;
         return await result.json();
     }
 
+    //Асинхронный метод, совершающий запрос к серверу и отдающий запись для добавления в базу данных, а также добавляющий ее в кэш 
     async AddPerson(person: Person) {
 
         if (person == null) return null;
@@ -113,6 +125,7 @@
         return result;
     }
 
+    //Асинхронный метод, совершающий запрос к серверу и отдающий запись для редактирвоания в базу данных
     async UpdatePerson(person: Person) {
         person = this.ValidateAndUpdatePerson(person);
         if (person == null) return null;
@@ -126,6 +139,7 @@
         return await response;
     }
 
+    //Асинхронный метод, совершающий запрос к серверу и отдающий запись для удаления из базы данных, а также удаляющий ее из кэша
     async DeletePerson(id: number) {
         let person = new Person();
         for (let i = 0; i < this.persons.length; i++) {

@@ -1,6 +1,6 @@
 ﻿class Display {
-
-    RenderPersonForModal(repository: Repository, person: Person) {
+    //Вносит данные из записи таблицы в инпуты модального окна
+    public RenderPersonForModal(repository: Repository, person: Person) {
         this.SetElementValue("idModal", String(person.id));
         this.SetElementValue("nameModal", person.name);
         this.SetElementValue("positionModal", person.position);
@@ -15,7 +15,8 @@
         this.SetElementValue("employmentDateModal", stringDateCorrect);
     }
 
-    CreatePersonFromModal(repository: Repository): Person {
+    //Создает экземпляр класса Person из инпутов модального окна
+    public CreatePersonFromModal(repository: Repository): Person {
         let person = new Person();
         person.id = +this.GetElementValueById("idModal");
         person.name = this.GetElementValueById("nameModal");
@@ -28,7 +29,8 @@
         return person;
     }
 
-    CloseAndClearFormsInModal() {
+    //Очищает инпуты модального окна и закрывает его
+    public CloseAndClearFormsInModal() {
         this.SetElementValue("nameModal", "");
         this.SetElementValue("positionModal", "");
         this.SetElementValue("employmentDateModal", "");
@@ -38,6 +40,7 @@
         modal.className = "modalFormClose";
     }
 
+    //Формирует структуру подчиненности для модального окна
     RenderSubordinationModal(managers: Array<Person>) {
         let subordinationTable = document.getElementById('SubordinationTable');
         subordinationTable.innerHTML = "";
@@ -62,6 +65,7 @@
         }
     }
 
+    //Формирует таблицу сотрудников из кэша репозитория
     Render(repository: Repository) {
 
         let table = document.getElementById('Table');
@@ -117,7 +121,7 @@
 
             string.innerHTML = ("<td>" + repository.persons[i].name + "</td>"
                 + "<td>" + repository.persons[i].position + "</td>"
-                + "<td>" + repository.persons[i].employmentDate + "</td>"
+                + "<td style='text-align:center'>" + repository.persons[i].employmentDate + "</td>"
                 + "<td>" + repository.persons[i].order + "</td>"
                 + "<td>" + managerName + "</td>"
                 + "<td style='visibility:hidden'>" + repository.persons[i].id + "</td>");
@@ -125,14 +129,17 @@
         }
     }
 
-    SetElementValue(id: string, value: string) {
+    //Устанавливает значение для элемента по Id
+    private SetElementValue(id: string, value: string) {
         (<HTMLInputElement>document.getElementById(id)).value = value;
     }
 
-    GetElementValueById(id: string): string {
+    //Извлекает значение элемента по Id
+    private GetElementValueById(id: string): string {
         return (<HTMLInputElement>document.getElementById(id)).value;
     }
 
+    //Сортирует таблицу по возрастанию
     SortTableUp(repository: Repository) {
         let element = document.getElementsByClassName("selectedElement")[0];
         let criterion = "";
@@ -145,6 +152,7 @@
         repository.persons.sort(repository.ByFieldUp(criterion));
     }
 
+    //Сортирует таблицу по убыванию
     SortTableDown(repository: Repository) {
         let element = document.getElementsByClassName("selectedElement")[0];
         let criterion = "";
@@ -158,18 +166,19 @@
     }
 
     //Преобразует дату из формата ГГГГ-ММ-ДД в ДД.ММ.ГГГГ для более лучшего восприятия пользователем
-    ChangeDataToClient(date:string):string{
+    private ChangeDataToClient(date:string):string{
         let dateArray = date.split('-');
         return dateArray[2] + '.' + dateArray[1] + '.' + dateArray[0];
     }
 
     //Преобразует дату из формата ДД.ММ.ГГГГ в ГГГГ-ДД-ММ для использования в инпутах HTML и передаче на сервер
-    ChangeDataToModal(date: string): string {
+    private ChangeDataToModal(date: string): string {
         let dateArray = date.split('.');
         return dateArray[2] + '-' + dateArray[1] + '-' + dateArray[0];
     }
 }
 
+//Выделяет элемент и дает ему класс selectedElement
 function ElementHighlightning(element: HTMLElement) {
     let str = document.getElementsByClassName("selectedElement");
     let sort = document.getElementById("sort");

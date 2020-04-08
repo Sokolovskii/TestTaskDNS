@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var Display = /** @class */ (function () {
     function Display() {
     }
+    //Вносит данные из записи таблицы в инпуты модального окна
     Display.prototype.RenderPersonForModal = function (repository, person) {
         this.SetElementValue("idModal", String(person.id));
         this.SetElementValue("nameModal", person.name);
@@ -51,6 +52,7 @@ var Display = /** @class */ (function () {
         var stringDateCorrect = this.ChangeDataToModal(person.employmentDate);
         this.SetElementValue("employmentDateModal", stringDateCorrect);
     };
+    //Создает экземпляр класса Person из инпутов модального окна
     Display.prototype.CreatePersonFromModal = function (repository) {
         var person = new Person();
         person.id = +this.GetElementValueById("idModal");
@@ -63,6 +65,7 @@ var Display = /** @class */ (function () {
         person.managerId = repository.GetManagerByName(managerName).id;
         return person;
     };
+    //Очищает инпуты модального окна и закрывает его
     Display.prototype.CloseAndClearFormsInModal = function () {
         this.SetElementValue("nameModal", "");
         this.SetElementValue("positionModal", "");
@@ -72,6 +75,7 @@ var Display = /** @class */ (function () {
         var modal = document.getElementById("modal-view");
         modal.className = "modalFormClose";
     };
+    //Формирует структуру подчиненности для модального окна
     Display.prototype.RenderSubordinationModal = function (managers) {
         var subordinationTable = document.getElementById('SubordinationTable');
         subordinationTable.innerHTML = "";
@@ -95,6 +99,7 @@ var Display = /** @class */ (function () {
             }
         }
     };
+    //Формирует таблицу сотрудников из кэша репозитория
     Display.prototype.Render = function (repository) {
         var table = document.getElementById('Table');
         table.innerHTML = "";
@@ -142,7 +147,7 @@ var Display = /** @class */ (function () {
             };
             string.innerHTML = ("<td>" + repository.persons[i].name + "</td>"
                 + "<td>" + repository.persons[i].position + "</td>"
-                + "<td>" + repository.persons[i].employmentDate + "</td>"
+                + "<td style='text-align:center'>" + repository.persons[i].employmentDate + "</td>"
                 + "<td>" + repository.persons[i].order + "</td>"
                 + "<td>" + managerName + "</td>"
                 + "<td style='visibility:hidden'>" + repository.persons[i].id + "</td>");
@@ -152,12 +157,15 @@ var Display = /** @class */ (function () {
             _loop_1(i);
         }
     };
+    //Устанавливает значение для элемента по Id
     Display.prototype.SetElementValue = function (id, value) {
         document.getElementById(id).value = value;
     };
+    //Извлекает значение элемента по Id
     Display.prototype.GetElementValueById = function (id) {
         return document.getElementById(id).value;
     };
+    //Сортирует таблицу по возрастанию
     Display.prototype.SortTableUp = function (repository) {
         var element = document.getElementsByClassName("selectedElement")[0];
         var criterion = "";
@@ -169,6 +177,7 @@ var Display = /** @class */ (function () {
         }
         repository.persons.sort(repository.ByFieldUp(criterion));
     };
+    //Сортирует таблицу по убыванию
     Display.prototype.SortTableDown = function (repository) {
         var element = document.getElementsByClassName("selectedElement")[0];
         var criterion = "";
@@ -192,6 +201,7 @@ var Display = /** @class */ (function () {
     };
     return Display;
 }());
+//Выделяет элемент и дает ему класс selectedElement
 function ElementHighlightning(element) {
     var str = document.getElementsByClassName("selectedElement");
     var sort = document.getElementById("sort");
@@ -360,14 +370,18 @@ var Person = /** @class */ (function () {
 }());
 var Repository = /** @class */ (function () {
     function Repository() {
+        //Кэш репозитория, все записи, полученные от базы данных и редактированные в процессе работы приложения
         this.persons = [];
     }
+    //Метод, позволяющий сортировать таблицу по возрастанию
     Repository.prototype.ByFieldUp = function (field) {
         return function (a, b) { return a[field] > b[field] ? 1 : -1; };
     };
+    //Метод, позволяющий сортировать таблицу по убыванию
     Repository.prototype.ByFieldDown = function (field) {
         return function (a, b) { return a[field] < b[field] ? 1 : -1; };
     };
+    //Записывает записи из JSON в кэш
     Repository.prototype.PushPersons = function (personsJson) {
         var length = Object.keys(personsJson).length;
         for (var i = 0; i < length; i++) {
@@ -375,6 +389,7 @@ var Repository = /** @class */ (function () {
         }
         return personsJson;
     };
+    //Осуществляет проверку на замыкания в структуре подчиненности
     Repository.prototype.ValidationCheckCircles = function (person) {
         var managerId = person.managerId;
         var ids = [person.id, managerId];
@@ -394,6 +409,7 @@ var Repository = /** @class */ (function () {
         }
         return true;
     };
+    //Осуществляет общую валидацию записи
     Repository.prototype.AllValidationCheck = function (person) {
         if (this.ValidationCheckCircles(person)) {
             return true;
@@ -403,6 +419,7 @@ var Repository = /** @class */ (function () {
             return false;
         }
     };
+    //Возвращает руководителя по его имени
     Repository.prototype.GetManagerByName = function (managerName) {
         var manager;
         for (var i = 0; i < this.persons.length; i++) {
@@ -411,6 +428,7 @@ var Repository = /** @class */ (function () {
         }
         return manager;
     };
+    //Возвращает руководителя по его Id
     Repository.prototype.GetManagerById = function (managerId) {
         var manager;
         for (var i = 0; i < this.persons.length; i++) {
@@ -419,6 +437,7 @@ var Repository = /** @class */ (function () {
         }
         return manager;
     };
+    //Возвращает список руководителей для указанного сотрудника
     Repository.prototype.GetStructedManagers = function (person) {
         var managers = [person];
         while (person.managerId != -1) {
@@ -429,6 +448,7 @@ var Repository = /** @class */ (function () {
         console.log(managers);
         return managers;
     };
+    //Проводит проверку записи и в случае успешной проверки обновляет запись в кэше
     Repository.prototype.ValidateAndUpdatePerson = function (person) {
         person.manager = this.GetManagerById(person.managerId);
         if (this.AllValidationCheck(person)) {
@@ -441,6 +461,7 @@ var Repository = /** @class */ (function () {
             return null;
         return person;
     };
+    //Асинхронный метод, совершающий запрос к серверу и получающий список всех сотрудников
     Repository.prototype.GetPersons = function () {
         return __awaiter(this, void 0, void 0, function () {
             var response, result;
@@ -458,6 +479,7 @@ var Repository = /** @class */ (function () {
             });
         });
     };
+    //Асинхронный метод, совершающий запрос к серверу и отдающий запись для добавления в базу данных, а также добавляющий ее в кэш 
     Repository.prototype.AddPerson = function (person) {
         return __awaiter(this, void 0, void 0, function () {
             var response, result, json;
@@ -494,6 +516,7 @@ var Repository = /** @class */ (function () {
             });
         });
     };
+    //Асинхронный метод, совершающий запрос к серверу и отдающий запись для редактирвоания в базу данных
     Repository.prototype.UpdatePerson = function (person) {
         return __awaiter(this, void 0, void 0, function () {
             var response;
@@ -518,6 +541,7 @@ var Repository = /** @class */ (function () {
             });
         });
     };
+    //Асинхронный метод, совершающий запрос к серверу и отдающий запись для удаления из базы данных, а также удаляющий ее из кэша
     Repository.prototype.DeletePerson = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var person, i, response;

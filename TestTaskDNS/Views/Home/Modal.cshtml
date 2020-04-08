@@ -1,29 +1,26 @@
 ﻿
     <div id="modal-view" class="modalFormClose" >
         <div>
-            <h4 id="header-modal"></h4>
+            <label for="idModal" style="width:48%; display:none"></label>
+            <input type="text" style="width:49%; display:none" id="idModal">
+            <br>
+            <label for="nameModal" class="LabelForInput">Имя:</label>
+            <input type="text" id="nameModal">
+            <br>
+            <label for="positionModal" class="LabelForInput">Должность:</label>
+            <input type="text" id="positionModal">
+            <br>
+            <label for="employmentDateModal" class="LabelForInput">Дата приема:</label>
+            <input type="date" id="employmentDateModal">
+            <br>
+            <label for="orderModal" class="LabelForInput">Отдел:</label>
+            <input type="text" id="orderModal">
+            <br>
+            <label for="managerNameModal" class="LabelForInput">Имя руководителя:</label>
+            <input type="text" id="managerNameModal">
         </div>
         <div>
-            <label for="idModal" style="display:none"></label>
-            <input type="text" style="width:50%; display:none" id="idModal">
-
-            <label for="nameModal" style="width:49%">Имя:</label>
-            <input type="text" style="width:50%" id="nameModal">
-
-            <label for="positionModal" style="width:49%">Должность:</label>
-            <input type="text" style="width:50%" id="positionModal">
-
-            <label for="employmentDateModal" style="width:49%">Дата приема:</label>
-            <input type="date" style="width:50%" id="employmentDateModal">
-
-            <label for="orderModal" style="width:49%">Отдел:</label>
-            <input type="text" style="width:50%" id="orderModal">
-
-            <label for="managerNameModal" style="width:49%">Имя руководителя:</label>
-            <input type="text" style="width:50%" id="managerNameModal">
-        </div>
-        <div>
-            <button class="ModalButton" type="button" id="closeModal">Закрыть</button>
-            <button class="ModalButton" type="submit" id="submitModal" style="float: right">Сохранить изменения</button>
+            <button type="button" style="width:33%" id="closeModal">Закрыть</button>
+            <button type="submit" id="submitModal" style="float: right;width:40%">Сохранить изменения</button>
         </div>
     </div>

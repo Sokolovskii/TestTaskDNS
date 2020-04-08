@@ -87,10 +87,6 @@ body {
     background-color: whitesmoke;
 }
 
-.selectedString {
-    background-color: whitesmoke;
-}
-
 .modalSubordinationOpen {
     visibility: visible;
     position: absolute;
@@ -106,7 +102,7 @@ body {
 }
 
 .modalSubordinationClose {
-    visibility: hidden;
+    display:none;
     position: absolute;
     left: 30%;
     top: 30vh;
@@ -173,10 +169,12 @@ body {
     pointer-events: auto; 
 }
 
-.Button {
+button {
     width: 100%;
     background-color: #6c757d;
     color: white;
+    font-family:"Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    font-size:medium;
     border: none;
     user-select: none;
     border-radius: 6px;
@@ -187,18 +185,38 @@ body {
 Button:hover{
     background-color: slategray;
 }
-button:active{
+Button:active{
     background-color:dimgray;
 }
 
-.ModalButton {
-    width: 40%;
-    background-color: darkgray;
-    border:2px solid black;
-    color: black;
-    border: none;
-    user-select: none;
-    border-radius: 6px;
-    outline: none;
-    text-decoration: none;
+.table {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    border-collapse: collapse;
+    color: #686461;
+}
+
+th {
+    border-bottom: 3px solid #808080;
+    padding: 10px;
+    text-align: left;
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #808080;
+}
+
+.LabelForInput {
+    width: 48%;
+    padding: 1% 0;
+    display: inline-block;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    color: #686461;
+    font-size:large;
+}
+
+input {
+    width: 49%;
+    font-size: large;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
 }

@@ -10,13 +10,16 @@ namespace TestTask.Repository
 	{
 		string connectionString = "Data Source =.\\SQLEXPRESS;Initial Catalog = TestDataBase; Integrated Security = True";
 
+		///<summary>
+		///Формирует запрос на удаление записи из БД
+		///</summary>
 		public void Delete(int id)
 		{
-			string sqlExpression = "DeletePerson";
+			var sqlExpression = "DeletePerson";
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
 				connection.Open();
-				SqlCommand command = new SqlCommand(sqlExpression, connection);
+				var command = new SqlCommand(sqlExpression, connection);
 				command.CommandType = System.Data.CommandType.StoredProcedure;
 
 				MakeAndAddSqlParameter("id", id, command);
@@ -24,14 +27,17 @@ namespace TestTask.Repository
 			}
 		}
 
+		///<summary>
+		///Формирует запрос на получение всех записей из БД
+		///</summary>
 		public List<Person> GetAllPersons()
 		{
-			string sqlExpression = "GetAllPersons";
+			var sqlExpression = "GetAllPersons";
 			var persons = new List<Person>();
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
 				connection.Open();
-				SqlCommand command = new SqlCommand(sqlExpression, connection);
+				var command = new SqlCommand(sqlExpression, connection);
 				command.CommandType = System.Data.CommandType.StoredProcedure;
 				var reader = command.ExecuteReader();
 				
@@ -62,13 +68,16 @@ namespace TestTask.Repository
 			return persons;
 		}
 
+		///<summary>
+		///Формирует запрос на добавление записи в БД
+		///</summary>
 		public int Add(Person person)
 		{
-			string sqlExpressionAdd = "AddNewPerson";
+			var sqlExpressionAdd = "AddNewPerson";
 			using(SqlConnection connection = new SqlConnection(connectionString))
 			{
 				connection.Open();
-				SqlCommand commandAdd = new SqlCommand(sqlExpressionAdd, connection);
+				var commandAdd = new SqlCommand(sqlExpressionAdd, connection);
 				commandAdd.CommandType = System.Data.CommandType.StoredProcedure;
 
 				MakeAndAddSqlParameter("Name", person.Name, commandAdd);
@@ -84,14 +93,17 @@ namespace TestTask.Repository
 			}
 		}
 
+		///<summary>
+		///Формирует запрос на обновление записи в БД
+		///</summary>
 		public void Update(Person person)
 		{
-			string sqlExpressionUpdate = "UpdatePerson";
+			var sqlExpressionUpdate = "UpdatePerson";
 
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
 				connection.Open();
-				SqlCommand commandUpdate = new SqlCommand(sqlExpressionUpdate, connection);
+				var commandUpdate = new SqlCommand(sqlExpressionUpdate, connection);
 				commandUpdate.CommandType = System.Data.CommandType.StoredProcedure;
 
 				MakeAndAddSqlParameter("Id", person.Id, commandUpdate);
@@ -106,6 +118,9 @@ namespace TestTask.Repository
 			}
 		}
 
+		///<summary>
+		///Формирует и добавляет в SQL-запрос входной параметр
+		///</summary>
 		public void MakeAndAddSqlParameter(string parameterName, object value, SqlCommand sqlCommand)
 		{
 			var sqlParameter = new SqlParameter

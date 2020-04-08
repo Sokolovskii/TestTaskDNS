@@ -43,7 +43,11 @@ namespace TestTask.Controllers
 			}
 
 		}
-		
+		/// <summary>
+		/// Добавление сотрудника
+		/// </summary>
+		/// <param name="person">Запись для добавления</param>
+		/// <returns>id сотрудника</returns>
 		[HttpPost("Add")]
 		public int AddPerson([FromBody]Person person)
 		{
@@ -63,6 +67,10 @@ namespace TestTask.Controllers
 			
 		}
 
+		/// <summary>
+		/// Редактирование сотрудника
+		/// </summary>
+		/// <param name="person">Запись для редактирования</param>
 		[HttpPost("Update")]
 		public bool UpdatePerson([FromBody]Person person)
 		{
@@ -80,7 +88,11 @@ namespace TestTask.Controllers
 			}
 
 		}
-		
+
+		/// <summary>
+		/// Удаление сотрудника
+		/// </summary>
+		/// <param name="person">Запись для удаления</param>
 		[HttpPost]
 		public bool Delete([FromBody]Person person)
 		{
@@ -98,6 +110,10 @@ namespace TestTask.Controllers
 			}
 		}
 
+		/// <summary>
+		/// Получение excel-таблицы
+		/// </summary>
+		/// <returns>Таблица excel</returns>
 		[HttpGet("excel")]
 		public IActionResult CreateExcelFile()
 		{
